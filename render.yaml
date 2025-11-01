@@ -1,0 +1,19 @@
+# render.yaml
+services:
+  - type: web
+    name: pivot-api
+    env: go
+    goVersion: 1.25.3
+    branch: main
+    buildCommand: cd server && go build -o server
+    startCommand: ./server/server
+    autoDeploy: true
+    plan: starter
+
+  - type: static-site
+    name: pivot-web
+    env: static
+    branch: main
+    publishPath: web
+    autoDeploy: true
+    plan: free

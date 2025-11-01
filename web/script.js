@@ -1,3 +1,5 @@
+const API_URL = "https://pivot-api.onrender.com";
+
 // Elements
 const startBtn = document.getElementById('startBtn');
 const stopBtn = document.getElementById('stopBtn');
@@ -14,7 +16,7 @@ connectSseBtn.addEventListener("click", () => {
         evtSource.close();
     }
 
-    evtSource = new EventSource(`http://localhost:8080/api/sse?id=${pivotId}`);
+    evtSource = new EventSource(`${API_URL}/api/sse?id=${pivotId}`);
 
     evtSource.onmessage = (event) => {
         const p = document.createElement('p');
@@ -35,7 +37,7 @@ async function sendCommand(command) {
     return;
   }
 
-  await fetch(`http://localhost:8080/api/${command}`, {
+  await fetch(`${API_URL}/api/${command}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id })
