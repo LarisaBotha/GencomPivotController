@@ -1,4 +1,4 @@
-const API_URL = "https://pivot-api.onrender.com";
+const API_URL = "https://pivot-api-of3d.onrender.com";
 
 // Elements
 const startBtn = document.getElementById('startBtn');
