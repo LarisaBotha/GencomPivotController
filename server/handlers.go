@@ -9,7 +9,7 @@ import (
 
 func handleSSE(w http.ResponseWriter, r *http.Request) {
 
-	// setCORSHeaders(w)
+	setCORSHeaders(w)
 
 	// Set headers for SSE
 	w.Header().Set("Content-Type", "text/event-stream")
@@ -67,14 +67,14 @@ func handleSSE(w http.ResponseWriter, r *http.Request) {
 
 func handleStart(w http.ResponseWriter, r *http.Request) {
 
-	// // CORS
-	// setCORSHeaders(w)
+	// CORS
+	setCORSHeaders(w)
 
-	// if r.Method == http.MethodOptions {
-	// 	w.WriteHeader(http.StatusOK)
-	// 	return
-	// }
-	// ////////////////////////////////////////
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	////////////////////////////////////////
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Only POST allowed", http.StatusMethodNotAllowed)
@@ -93,14 +93,14 @@ func handleStart(w http.ResponseWriter, r *http.Request) {
 
 func handleStop(w http.ResponseWriter, r *http.Request) {
 
-	// // CORS
-	// setCORSHeaders(w)
+	// CORS
+	setCORSHeaders(w)
 
-	// if r.Method == http.MethodOptions {
-	// 	w.WriteHeader(http.StatusOK)
-	// 	return
-	// }
-	// ////////////////////////////////////////
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	////////////////////////////////////////
 
 	if r.Method != http.MethodPost {
 		http.Error(w, "Only POST allowed", http.StatusMethodNotAllowed)
