@@ -18,6 +18,7 @@ var (
 )
 
 func main() {
+	http.HandleFunc("/api/ping", handlePing)
 	http.HandleFunc("/api/sse", handleSSE)
 	http.HandleFunc("/api/start", handleStart)
 	http.HandleFunc("/api/stop", handleStop)

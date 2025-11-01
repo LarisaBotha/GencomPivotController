@@ -7,6 +7,20 @@ import (
 	"net/http"
 )
 
+func handlePing(w http.ResponseWriter, r *http.Request) {
+	// CORS
+	setCORSHeaders(w)
+
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+	////////////////////////////////////////
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "successfully connected")
+}
+
 func handleSSE(w http.ResponseWriter, r *http.Request) {
 
 	setCORSHeaders(w)
