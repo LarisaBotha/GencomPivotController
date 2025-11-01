@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pivot Controller</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="flex gap-4">
+        <!-- Pivot Controller Card -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex-1 flex flex-col min-h-[300px]">
+            <h1 class="text-2xl font-bold text-gray-800">Controller</h1>
+            <div class="flex items-center gap-2 justify-center">
+                <label for="pivotIdInput" class="font-medium text-gray-700">IMEI:</label>
+                <input
+                    id="pivotIdInput"
+                    type="text"
+                    class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </div>
+            <div class="flex justify-center gap-4">
+                <button id="startBtn" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Start</button>
+                <button id="stopBtn" class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Stop</button>
+            </div>
+        </div>
+
+        <!-- SSE Test Card -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex-1 flex flex-col min-h-[300px]">
+            <h1 class="text-2xl font-bold text-gray-800">SSE Test</h1>
+            <div class="flex items-center justify-center gap-2">
+                <label for="ssePivotIdInput" class="font-medium text-gray-700">IMEI:</label>
+                <input
+                    id="ssePivotIdInput"
+                    type="text"
+                    class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />   
+            </div>
+            <button id="connectSseBtn" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Connect</button>
+            <span id="sseMessageSpan" class="text-gray-700 text-sm break-words"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
