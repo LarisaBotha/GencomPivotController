@@ -7,26 +7,75 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="flex flex-col md:flex-row gap-4">
-        <!-- Pivot Controller Card -->
-        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex-1 flex flex-col min-h-[300px]">
-            <h1 class="text-2xl font-bold text-gray-800">Controller</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Register Pivot Card -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex flex-col min-h-[200px]">
+            <h1 class="text-2xl font-bold text-gray-800">Register Pivot</h1>
             <div class="flex items-center gap-2 justify-center">
-                <label for="pivotIdInput" class="font-medium text-gray-700">IMEI:</label>
-                <input
-                    id="pivotIdInput"
-                    type="text"
-                    class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <label for="registerImeiInput" class="font-medium text-gray-700">IMEI:</label>
+                <input id="registerImeiInput" type="text" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
-            <div class="flex justify-center gap-4">
-                <button id="startBtn" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Start</button>
-                <button id="stopBtn" class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Stop</button>
+            <button id="registerBtn" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Register Pivot</button>
+            <span id="registerStatus" class="text-gray-700 text-sm break-words"></span>
+        </div>
+
+        <!-- Send Command Card -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex flex-col min-h-[200px]">
+            <h1 class="text-2xl font-bold text-gray-800">Send Command</h1>
+            <div class="flex items-center gap-2 justify-center">
+                <label for="commandImeiInput" class="font-medium text-gray-700">IMEI:</label>
+                <input id="commandImeiInput" type="text" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
+            <div class="flex items-center gap-2 justify-center">
+                <label for="commandInput" class="font-medium text-gray-700">Command:</label>
+                <input id="commandInput" type="text" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            </div>
+            <button id="sendCommandBtn" class="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">Send</button>
+            <span id="commandStatus" class="text-gray-700 text-sm break-words"></span>
+        </div>
+
+        <!-- Update Pivot Card -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex flex-col min-h-[300px]">
+            <h1 class="text-2xl font-bold text-gray-800">Update Pivot</h1>
+            
+            <div class="flex items-center gap-2 justify-center">
+                <label for="updateImeiInput" class="font-medium text-gray-700">IMEI:</label>
+                <input id="updateImeiInput" type="text" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            </div>
+
+            <div class="flex flex-col gap-2 justify-center items-center">
+                <label class="font-medium text-gray-700">Status Attributes:</label>
+                <input id="updatePositionInput" type="number" step="0.01" placeholder="Position (deg)" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                <input id="updateSpeedInput" type="number" step="0.01" placeholder="Speed (%)" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                <select id="updateDirectionInput" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="forward">Forward</option>
+                    <option value="reverse">Reverse</option>
+                </select>
+                <select id="updateWetInput" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="true">Wet</option>
+                    <option value="false">Dry</option>
+                </select>
+                <input id="updateStatusInput" type="text" placeholder="Status text" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            </div>
+
+            <button id="updateBtn" class="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Update</button>
+            <span id="updateStatus" class="text-gray-700 text-sm break-words"></span>
+        </div>
+
+        <!-- Get Status Card -->
+        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex flex-col min-h-[200px]">
+            <h1 class="text-2xl font-bold text-gray-800">Get Pivot Status</h1>
+            <div class="flex items-center gap-2 justify-center">
+                <label for="statusImeiInput" class="font-medium text-gray-700">IMEI:</label>
+                <input id="statusImeiInput" type="text" class="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            </div>
+            <button id="statusBtn" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Get Status</button>
+            <pre id="statusSpan" class="text-gray-700 text-sm break-words mt-2"></pre>
         </div>
 
         <!-- SSE Test Card -->
-        <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex-1 flex flex-col min-h-[300px]">
+        <!-- <div class="bg-white p-8 rounded-2xl shadow-lg text-center space-y-4 flex-1 flex flex-col min-h-[300px]">
             <h1 class="text-2xl font-bold text-gray-800">SSE Test</h1>
             <div class="flex items-center justify-center gap-2">
                 <label for="ssePivotIdInput" class="font-medium text-gray-700">IMEI:</label>
@@ -38,7 +87,7 @@
             </div>
             <button id="connectSseBtn" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Connect</button>
             <span id="sseMessageSpan" class="text-gray-700 text-sm break-words"></span>
-        </div>
+        </div> -->
     </div>
 
     <script src="script.js"></script>
