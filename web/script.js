@@ -1,4 +1,4 @@
-const API_URL = "https://pivot-api-of3d.onrender.com"; //"http://127.0.0.1:8080";
+const API_URL = "https://pivot-api-of3d.onrender.com"; //"http://127.0.0.1:8080"; //
 
 // ======================
 // Elements
@@ -108,14 +108,17 @@ registerBtn.addEventListener("click", async () => {
             data = {};
         }
 
-        if (!res.ok) {
+        if (res.status == 202 ) {
+            registerStatus.textContent = "Pivot already registered!";
+            return
+        } else if (!res.ok) {
             // show error message from server JSON or fallback
             registerStatus.textContent = data.error || `Server returned ${res.status}`;
             return;
         }
 
         // success message
-        registerStatus.textContent = data.message || "Pivot registered!";
+        registerStatus.textContent = "Pivot registered!";
     } catch (err) {
         registerStatus.textContent = `Error: ${err.message}`;
     }
@@ -167,7 +170,7 @@ updateBtn.addEventListener("click", async () => {
     };
 
     try {
-        const res = await fetch(`${API_URL}/api/update?imei=${encodeURIComponent(imei)}`, {
+        const res = await fetch(`${API_URL}/api/update`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)

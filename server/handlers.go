@@ -22,8 +22,7 @@ func handlePing(w http.ResponseWriter, r *http.Request) {
 	}
 	////////////////////////////////////////
 
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "successfully connected")
+	writeJSON(w, http.StatusOK, map[string]bool{"ok": true})
 }
 
 func handleSSE(w http.ResponseWriter, r *http.Request) {
@@ -166,8 +165,7 @@ func handleUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(PivotUpdateResponse{Commands: commands})
+	writeJSON(w, http.StatusOK, PivotUpdateResponse{Commands: commands})
 }
 
 func handleStatus(w http.ResponseWriter, r *http.Request) {
@@ -210,8 +208,7 @@ func handleStatus(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(status)
+	writeJSON(w, http.StatusOK, status)
 }
 
 func handleCommand(w http.ResponseWriter, r *http.Request) {
@@ -302,11 +299,7 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 	err := DB.QueryRow(ctx, `SELECT id FROM pivots WHERE imei=$1`, req.IMEI).Scan(&existingID)
 	if err == nil {
 		// Pivot already exists
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusConflict)
-		json.NewEncoder(w).Encode(map[string]string{
-			"error": "Pivot with this IMEI already exists",
-		})
+		w.WriteHeader(http.StatusAccepted)
 		return
 	} else if err != pgx.ErrNoRows {
 		log.Println("Error checking existing pivot:", err)
@@ -326,10 +319,6 @@ func handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Respond with a success message
-	w.Header().Set("Content-Type", "application/json")
+	// Return
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{
-		"message": "Pivot registered successfully",
-	})
 }
