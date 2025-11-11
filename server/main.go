@@ -22,6 +22,7 @@ func main() {
 	defer CloseDB()
 
 	http.HandleFunc("/api/ping", handlePing)
+	http.HandleFunc("/api/test", handleTest)
 	http.HandleFunc("/api/sse", handleSSE)
 	http.HandleFunc("/api/register", handleRegister)
 	http.HandleFunc("/api/update", handleUpdate)

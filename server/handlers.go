@@ -6,11 +6,23 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 )
+
+func handleTest(w http.ResponseWriter, r *http.Request) {
+
+	body := []byte("Hello from Test")
+
+	w.Header().Set("Content-Type", "text/plain")
+	w.Header().Set("Connection", "close")
+	w.Header().Set("Content-Length", strconv.Itoa(len(body)))
+	w.WriteHeader(http.StatusOK)
+	w.Write(body)
+}
 
 func handlePing(w http.ResponseWriter, r *http.Request) {
 	// CORS

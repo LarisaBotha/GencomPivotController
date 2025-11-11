@@ -21,6 +21,7 @@ func writeJSON(w http.ResponseWriter, status int, v interface{}) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Connection", "close")
 	w.Header().Set("Content-Length", strconv.Itoa(len(b)))
 	w.WriteHeader(status)
 	_, _ = w.Write(b)
