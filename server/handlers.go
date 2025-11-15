@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -123,6 +125,7 @@ func handleUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update the status
+	re := regexp.MustCompile(`\s+`)
 	_, err = DB.Exec(ctx, `
         INSERT INTO pivot_status (pivot_id, position_deg, speed_pct, direction, wet, status, last_update)
         VALUES ($1, $2, $3, $4, $5, $6, NOW())
@@ -134,7 +137,7 @@ func handleUpdate(w http.ResponseWriter, r *http.Request) {
             wet = EXCLUDED.wet,
             status = EXCLUDED.status,
             last_update = NOW()
-    `, pivotID, req.PositionDeg, req.SpeedPct, req.Direction, req.Wet, req.Status)
+    `, pivotID, req.PositionDeg, req.SpeedPct, re.ReplaceAllString(strings.ToLower(req.Direction), ""), req.Wet, re.ReplaceAllString(strings.ToLower(req.Status), ""))
 	if err != nil {
 		log.Println("Error updating pivot status:", err)
 		http.Error(w, "database error", http.StatusInternalServerError)
@@ -143,7 +146,7 @@ func handleUpdate(w http.ResponseWriter, r *http.Request) {
 
 	// Fetch queued (unacknowledged) commands
 	rows, err := DB.Query(ctx, `
-        SELECT id, command, payload
+        SELECT command, payload
         FROM pivot_command_queue
         WHERE pivot_id=$1 AND acknowledged=false
         ORDER BY created_at ASC
@@ -155,12 +158,13 @@ func handleUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 	defer rows.Close()
 
-	var commands []PivotCommand
+	var commands []string
 	for rows.Next() {
-		var cmd PivotCommand
+		var cmd string
 		var payload []byte
-		rows.Scan(&cmd.ID, &cmd.Command, &payload)
-		cmd.Payload = payload
+
+		rows.Scan(&cmd, &payload)
+
 		commands = append(commands, cmd)
 	}
 
@@ -177,7 +181,9 @@ func handleUpdate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return
-	writeJSON(w, http.StatusOK, PivotUpdateResponse{Commands: commands})
+	writeJSON(w, http.StatusOK, map[string]interface{}{
+		"commands": commands,
+	})
 }
 
 func handleStatus(w http.ResponseWriter, r *http.Request) {
